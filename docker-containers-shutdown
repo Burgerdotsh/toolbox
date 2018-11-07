@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+FILTER="$1";
+RUNNING="";
+
+if [ -z "${FILTER}" ] || [[ "all" == "${FILTER}" ]]; then
+
+  echo "Shutting down all docker containers... ";
+
+  RUNNING=$(docker ps -q);
+
+else
+
+  echo "Shutting down containers with name <${FILTER}> ... ";
+
+  RUNNING=$(docker ps -q --filter="name=${FILTER}")
+
+fi
+
+if [ -z "${RUNNING}" ]; then true; else
+
+  echo "${RUNNING}" | while read cid; do  
+  
+    echo "Stopping ${cid} ...";
+    docker stop ${cid};
+
+  done
+  
+fi

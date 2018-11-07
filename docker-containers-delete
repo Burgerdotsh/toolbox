@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+FILTER="$1";
+RUNNING="";
+
+if [ -z "${FILTER}" ] || [[ "all" == "${FILTER}" ]]; then
+
+  echo "(!) Deleting all docker containers... ";
+
+  RUNNING=$(docker ps -a -q);
+
+else
+
+  echo "(!) Deleting containers with name <${FILTER}> ... ";
+
+  RUNNING=$(docker ps -a -q --filter="name=${FILTER}")
+
+fi
+
+if [ -z "${RUNNING}" ]; then true; else
+
+  echo "${RUNNING}" | while read cid; do  
+  
+    echo "Deleting ${cid} ...";
+    docker rm ${cid};
+
+  done
+  
+fi

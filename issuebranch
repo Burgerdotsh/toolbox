@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+ISSUE="${1}"
+ORIGIN="${2}"
+
+if [ -z "${ORIGIN}" ]; then 
+    ORIGIN=master
+fi
+
+echo "Creating issue branch ${ISSUE} at ${ORIGIN}";
+
+git branch ${ISSUE} ${ORIGIN}
+git checkout ${ISSUE}

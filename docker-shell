@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+SHELL_PATH="/bin/bash"
+
+if [ -z "${2}" ]; then true; else
+	
+	# Set custom executable
+
+	if [[ "bash" == "${2}" ]]; then true; else
+
+		if [[ "sh" == "${2}" ]]; then
+			SHELL_PATH="/bin/sh"
+		else
+			SHELL_PATH="${2}"
+		fi	
+
+	fi
+
+fi
+
+echo "Attaching to ${SHELL_PATH} on container ${1} ...";
+echo "";
+
+docker exec -it ${1} ${SHELL_PATH}
