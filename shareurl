@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# Share URL via email
+
+if [ -z "${SENDGRID_API_KEY}"]; then 
+	echo "Please set up your SENDGRID_API_KEY first!";
+	exit 1;
+fi
+
+# Url to share
+URL="${2}"
+
+# Email address
+TO="${1}"
+
+DATA="{\"personalizations\": [{\"to\": [{\"email\": \"${TO}\"}]}],\"from\": {\"email\": \"friends@somewhere.net\"},\"subject\": \"Check this out!\",\"content\": [{\"type\": \"text/plain\", \"value\": \"Check this cool url here: ${URL}\"}]}"
+
+curl --request POST \
+  --url https://api.sendgrid.com/v3/mail/send \
+  --header "Authorization: Bearer ${SENDGRID_API_KEY}" \
+  --header 'Content-Type: application/json' \
+  --data "${DATA}"

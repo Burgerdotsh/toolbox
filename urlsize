@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+UTILITY=$(which mktemp || which tempfile)
+FILENAME=$("$UTILITY")
+SIZE=0
+
+#echo "Computing size for $1 ... "
+
+if [ -f "$FILENAME" ]; then
+    wget --quiet --output-document "$FILENAME" "$1"
+    SIZE=$(du -h "$FILENAME" | cut -f1)
+else
+    echo "Could not create temporary file... ."
+    exit
+fi
+
+#remove temp file
+rm $FILENAME
+
+echo "";
+echo "$SIZE";
